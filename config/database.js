@@ -1,7 +1,7 @@
 const { Sequelize } = require("sequelize");
 let mysql = require("mysql");
 
-const sequalize = new Sequelize('test_node', 'root', '', {
+const sequalize = new Sequelize('graphdb_node', 'root', '72410', {
     host: 'localhost',
     dialect: 'mysql'
 })

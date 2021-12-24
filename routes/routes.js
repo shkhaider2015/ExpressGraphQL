@@ -20,6 +20,17 @@ router.get("/signup", (req, res) => {
 router.get("/login", (req, res) => {
     res.sendFile(path.join(__dirname, "../screens/Login/index.html"));
 })
+router.get("/login-success", (req, res) => {
+    res.sendFile(path.join(__dirname, "../screens/Login/Success.html"));
+})
+
+router.post("/login-form",URLencoded, (req, res) => {
+    let email = req.body;
+    console.log("Body : ", email)
+    User.findOne({
+        where: { email: email }
+    }).then(ress => ress ? res.status(200).send("Successfully login") : res.status(400).send("No user Find") ).catch(err => res.status(400).send(err))
+})
 
 router.post("/submit-form",URLencoded, (req, res) => {
     // console.log("Request Body : ", JSON.stringify(req.body))
@@ -28,8 +39,6 @@ router.post("/submit-form",URLencoded, (req, res) => {
     // let body = JSON.stringify(req.body);
     let body = req.body;
     let fullName = body.fullname;
-    console.log("name : ", fullName)
-    console.dir("Body : ", body)
     let user = User.build({
          fullName : body.fullName,
          email: body.email,
@@ -41,7 +50,7 @@ router.post("/submit-form",URLencoded, (req, res) => {
     {
         user.save()
         .then(() => {
-            console.log("Si=uccessfully saved")
+            console.log("Successfully saved")
             res.redirect("/login")
         })
         .catch(err => console.log("Error "))
